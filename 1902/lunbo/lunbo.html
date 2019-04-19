@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+		 <style>
+* {margin:0; padding:0; }
+li{list-style:none; }
+
+#div1 {width:845px; height:500px; margin:50px auto; overflow:hidden; position:relative;}
+#div1 ul{position: absolute;left:0;}
+#div1 ul li{height:500px; float: left;}
+#div1 ol {position:absolute;right: 10%;bottom: 10px;z-index:6}
+#div1 ol li{width: 20px;height: 20px;background: #fff;margin-left: 5px;float: left;line-height: 20px;text-align: center;cursor: pointer;}
+#div1 ol li.ac{background: red;color: #fff;}
+#div1>a{text-decoration: none;position: absolute;top: 50%;margin-top: -10px;height: 40px;line-height: 32px;text-align: center;width: 40px;font-size: 40px;vertical-align: middle;color: #fff;background: rgba(0,0,0,0.5);z-index:6;}
+#goPrev{left: 0;}
+#goNext{right: 0;}
+img{width:850px; height:500px;}
+
+
+
+		 </style>
+</head>
+<body>
+    <div id="div1">
+	<ul>
+		<li><a href="javascript:alert(0);"><img src="imag/1.jpg" /></a></li>
+		<li><a href="javascript:alert(1);"><img src="imag/2.jpg" /></a></li>
+		<li><a href="javascript:alert(2);"><img src="imag/3.jpg" /></a></li>
+		<li><a href="javascript:alert(3);"><img src="imag/4.jpg" /></a></li>
+		<li><a href="javascript:alert(4);"><img src="imag/5.jpg" /></a></li>
+
+	</ul>
+	<ol></ol>
+	<a href="javascript:;" id="goPrev">&laquo;</a>
+	<a href="javascript:;" id="goNext">&raquo;</a>
+</div>
+	<script>
+	class Rotation{
+    constructor(){
+        this.div =document.querySelector("#div1");
+        this.ul =this.div.querySelector("ul");
+        this.li =this.div.querySelector("li");
+				this.aImg=this.div.querySelectorAll("img")
+        this.ol=this.div.querySelector("ol");
+				this.goPreve=this.div.querySelector("#goPrev");
+				console.log(this.goPreve)
+				this.goNext=this.div.querySelector("#goNext");
+				this.len=this.aImg.length;
+		
+				this.imgWidth=this.aImg[0].offsetWidth;
+				this.index=0;
+				this.flag=false;
+				this.Establish();
+				
+    }
+    Establish(){
+			//创建图片到ul,
+			 this.ul.appendChild(this.ul.children[0].cloneNode(true));
+			//计算ul的宽度
+			this.ul.style.width=this.imgWidth *(this.len+1)+"px";
+			//获取li的个数，根据li创建按钮
+     for(var i=0; i<this.len;i++){
+			//创建li，添加到OL
+		   var aLi=document.createElement("li");
+			// 将li 添加到OL中
+			 this.ol.appendChild(aLi);
+		}
+		this.ol.children[0].className="ac"
+		this.goGt();
+		this.goLt();
+}
+   goGt(){
+			 //往右运动
+			
+			 let time=false;
+			this.goNext.onclick=()=>{
+				console.log(time)
+				if(time){
+		        setTimeout(function(){
+						time=false;
+					},1000)
+					return;
+				}
+				time=true;
+				this.index++;
+				this.ul.style.transition="1s"
+				this.ul.style.left=-this.index*this.imgWidth+"px"; 
+				if(this.index+1 >this.len){
+					this.index=0;
+			setTimeout(()=>{
+						this.ul.style.transition="none";
+                    console.log(this.ul)
+                    this.className="";
+                    this.index=0;
+										this.ul.style.left=0;
+										this.ul.style.transition="0"
+									//	time=false;
+					 },50)
+					
+				};
+			}
+			 }
+			goLt(){
+			this.goPreve.onclick=()=>{
+				 this.index--;
+				 if(this.index<0){
+					this.ul.style.transition = "none";
+					this.ul.style.left=-this.len*this.imgWidth+"px";
+					this.index=this.len-1;
+				 }
+      setTimeout(()=>{
+            this.ul.style.transition = "0.5s";
+						this.ul.style.left = -this.index * this.imgWidth +"px";   
+							   
+			    },50)
+     	}
+		}
+			 sub(){
+			 }
+			
+			};
+				
+			
+
+	
+ new Rotation();
+	
+	
+	</script>
+</body>
+</html>
