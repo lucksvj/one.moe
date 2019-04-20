@@ -72,6 +72,7 @@ img{width:850px; height:500px;}
 		this.ol.children[0].className="ac"
 		this.goGt();
 		this.goLt();
+		this.sub();
 }
    goGt(){
 			 //往右运动
@@ -79,18 +80,21 @@ img{width:850px; height:500px;}
 			 let time=false;
 			this.goNext.onclick=()=>{
 				console.log(time)
-				if(time){
-		        setTimeout(function(){
-						time=false;
-					},1000)
-					return;
-				}
+				// if(time){
+		    //     setTimeout(function(){
+				// 		time=false;
+				// 	},1000)
+				// 	return;
+				// }
 				time=true;
 				this.index++;
+				//点击时增加过渡效果
 				this.ul.style.transition="1s"
+				//图片移动的宽度
 				this.ul.style.left=-this.index*this.imgWidth+"px"; 
 				if(this.index+1 >this.len){
 					this.index=0;
+					//在定时器中 过渡关闭
 			setTimeout(()=>{
 						this.ul.style.transition="none";
                     console.log(this.ul)
@@ -114,12 +118,26 @@ img{width:850px; height:500px;}
 				 }
       setTimeout(()=>{
             this.ul.style.transition = "0.5s";
-						this.ul.style.left = -this.index * this.imgWidth +"px";   
-							   
-			    },50)
+						this.ul.style.left = -this.index * this.imgWidth +"px";      
+					},50)
+			
      	}
 		}
 			 sub(){
+				 //定时器
+        clearInterval(this.timer)
+        this.timer = setInterval(() => {
+					console.log(this.timer)
+					this.goNext.onclick(); 
+        },2000)
+        this.div.onmouseenter = ()=>{
+            clearInterval(this.timer);                     
+        }
+        this.div.onmouseleave = () =>{
+            this.timer = setInterval(() => {
+							this.goNext.onclick();
+            },2000)
+        }
 			 }
 			
 			};
